@@ -1,0 +1,22 @@
+{
+  "name": "elk-smart-mirror",
+  "version": "1.0.0",
+  "description": "The web frontend for a smart mirror",
+  "main": "dist/modules.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "~"
+  },
+  "repository": {
+    "type": "git",
+    "url": ".git"
+  },
+  "keywords": [
+    "ELK",
+    "smart",
+    "mirror"
+  ],
+  "author": "Peter McKinney",
+  "license": "ISC"
+}
