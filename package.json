@@ -6,11 +6,11 @@
   "dependencies": {},
   "devDependencies": {},
   "scripts": {
-    "test": "~"
+    "test": ""
   },
   "repository": {
     "type": "git",
-    "url": ".git"
+    "url": "https://github.com/ELK-Labs/ELK-Smart-Mirror.git"
   },
   "keywords": [
     "ELK",
