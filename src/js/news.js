@@ -40,7 +40,7 @@ export class News {
 
     show() {
 
-        
+
     }
 
     init() {
