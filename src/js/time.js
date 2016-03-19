@@ -19,9 +19,9 @@ export class Time {
 
     init() {
         this.update();
-        this.intervalID = setInterval(function() {
+        this.intervalID = setInterval(() => {
             this.update();
-        }.bind(this), this.updateInterval);
+        }, this.updateInterval);
     }
 
     update () {

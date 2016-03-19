@@ -39,21 +39,20 @@ export class News {
     }
 
     show() {
-
-
+        // todo create a way to show the collected feeds on index.html
     }
 
     init() {
         this.update();
         this.show();
 
-        this.intervalID = setInterval(function () {
+        this.intervalID = setInterval(() => {
             this.update();
-        }.bind(this), this.updateInterval);
+        }, this.updateInterval);
 
-        this.intervalID_show = setInterval(function () {
+        this.intervalID_show = setInterval(() => {
             this.show();
-        }.bind(this), this.showInterval);
+        }, this.showInterval);
 
     }
 
