@@ -46,4 +46,9 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+# no need to commit node modules
 node_modules
+
+# no need to commit the built JS
+dist
+
