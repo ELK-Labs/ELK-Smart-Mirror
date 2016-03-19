@@ -1,0 +1,4 @@
+export const keys = {
+    quote: "YOUR QUOTE KEY",
+    weather: "YOUR WEATHER KEY"
+}
