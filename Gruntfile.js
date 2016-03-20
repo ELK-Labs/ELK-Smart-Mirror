@@ -8,9 +8,6 @@ module.exports = function (grunt) {
                     ]
                 },
                 files: {
-                    // if the source file has an extension of es6 then
-                    // we change the name of the source file accordingly.
-                    // The result file's extension is always .js
                     "./dist/js/app.js": ["./src/js/*.js"]
                 }
             }
@@ -23,18 +20,24 @@ module.exports = function (grunt) {
                     src: ["**/*.html"],
                     dest: "./dist/"
                 },
-                    {
-                        expand: true,
-                        cwd: "src",
-                        src: ["css/*.css"],
-                        dest: "./dist/"
-                    },
-                    {
-                        expand: true,
-                        cwd: "src",
-                        src: ["js/lib/*.js"],
-                        dest: "./dist/"
-                    }]
+                {
+                    expand: true,
+                    cwd: "src",
+                    src: ["css/*.css"],
+                    dest: "./dist/"
+                },
+                {
+                    expand: true,
+                    cwd: "src",
+                    src: ["js/lib/*.js"],
+                    dest: "./dist/"
+                },
+                {
+                    expand: true,
+                    cwd: "src",
+                    src: ["font/*"],
+                    dest: "./dist/"
+                }]
             }
         },
         watch: {

@@ -9,14 +9,14 @@ import { News } from './news';
 import { Weather } from './weather';
 import { Message } from './message';
 
-var $ = require('jquery');
+const $ = require('jquery');
 
-let moment = require('moment');
-let parseRss = require('parse-rss');
+const moment = require('moment');
+const parseRss = require('parse-rss');
 
 let time = new Time(moment, $);
 let news = new News(parseRss, $);
-let weather = new Weather($);
+let weather = new Weather($, moment);
 let message = new Message($);
 
 time.init();

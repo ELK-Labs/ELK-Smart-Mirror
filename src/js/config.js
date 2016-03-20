@@ -10,7 +10,8 @@ export const config = {
 
     Locale: 'en-ie',
 
-    CORSProxy: 'https://crossorigin.me',
+    //CORSProxy: 'https://crossorigin.me',
+    CORSProxy: 'http://cors.io/?u=',
 
     Time: {
         timeLoc: '.time',
@@ -29,16 +30,18 @@ export const config = {
 
     Weather: {
         apiKey: keys.weather,
-        apiVersion: "2.5",
-        apiBase: "http://api.openweathermap.org/data",
-        cityID: "2962725", // find the ID on openweathermap.org
-        tempType: "C", // C F or K
-        currentEndpoint: "weather",
-        forecastEndpoint: "forecast",
-        currentLoc: ".current-weather",
-        forecastLoc: ".forecast",
-        currentUpdateInterval: 3600000,
-        forecastUpdateInterval: 43200000
+        apiBase: "https://api.forecast.io/forecast",
+        lat: 53.4433,
+        long: -6.2,
+        useMetric: true,
+        useKnots: false,
+        feelsLikeLoc: "feelslike",
+        summaryLoc: "weathersummary",
+        currentLoc: "temp",
+        windLoc: "wind",
+        sunLoc: "sun",
+        forecastLoc: "forecast",
+        updateInterval: 3600000
     },
 
     Message: {
