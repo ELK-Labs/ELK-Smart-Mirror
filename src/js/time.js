@@ -4,14 +4,12 @@
 //! Licence : MIT
 //! elklabs.io
 
-import { config } from './config'
-
-let $ = require('jquery');
-let moment = require('moment');
+import { config } from './config';
 
 export class Time {
-    constructor() {
-        this.intervalID = 0;
+    constructor(moment, jQuery) {
+        this.moment = moment;
+        this.$ = jQuery;
         this.updateInterval = config.Time.updateInterval || 1000;
         this.timeLoc = config.Time.timeLoc;
         this.locale = config.Locale;
@@ -19,13 +17,13 @@ export class Time {
 
     init() {
         this.update();
-        this.intervalID = setInterval(() => {
+        setInterval(() => {
             this.update();
         }, this.updateInterval);
     }
 
     update () {
-        let now = moment().locale(this.locale).format("h:mm:ss A");
-        $(this.timeLoc).html(now);
+        let now = this.moment().locale(this.locale).format("h:mm:ss A");
+        this.$(this.timeLoc).html(now);
     }
 }

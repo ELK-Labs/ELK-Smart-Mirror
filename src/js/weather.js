@@ -6,11 +6,10 @@
 
 import { config } from './config';
 
-let $ = require('jquery');
-
 export class Weather {
 
-    constructor() {
+    constructor(jquery) {
+        this.$ = jquery;
         this.current_loc = config.Weather.currentLoc;
         this.apiKey = config.Weather.apiKey;
         this.apiVersion = config.Weather.apiVersion;
@@ -58,13 +57,13 @@ export class Weather {
     }
 
     updateCurrent() {
-        $.ajax({
+        this.$.ajax({
             type: 'GET',
-            url: `${this.apiBase}/${this.apiVersion}/${this.currentEndpoint}?id=${this.cityID}&appid=${this.apiKey}`,
+            url: `${ config.CORSProxy }/${ this.apiBase }/${ this.apiVersion }/${ this.currentEndpoint }?id=${ this.cityID }&appid=${ this.apiKey }`,
             dataType: 'json',
             data: {},
             success: (data) => {
-                // todo create front end for current
+
             },
             error: () => {
                 console.log('oh dear :(');
@@ -73,13 +72,13 @@ export class Weather {
     }
 
     updateForecast() {
-        $.ajax({
+        this.$.ajax({
             type: 'GET',
-            url: `${this.apiBase}/${this.apiVersion}/${this.forecastEndpoint}?id=${this.cityID}&appid=${this.apiKey}`,
+            url: `${ config.CORSProxy }/${ this.apiBase }/${ this.apiVersion }/${ this.forecastEndpoint }?id=${ this.cityID }&appid=${ this.apiKey }`,
             dataType: 'json',
             data: {},
             success: (data) => {
-                // todo create front end for 5 day forecast
+
             },
             error: () => {
                 console.log('oh dear :(');

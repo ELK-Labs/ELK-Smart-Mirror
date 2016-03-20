@@ -23,24 +23,24 @@ module.exports = function (grunt) {
                     src: ["**/*.html"],
                     dest: "./dist/"
                 },
-                {
-                    expand: true,
-                    cwd: "src",
-                    src: ["css/*.css"],
-                    dest: "./dist/"
-                },
-                {
-                    expand: true,
-                    cwd: "src",
-                    src: ["js/lib/*.js"],
-                    dest: "./dist/"
-                }]
+                    {
+                        expand: true,
+                        cwd: "src",
+                        src: ["css/*.css"],
+                        dest: "./dist/"
+                    },
+                    {
+                        expand: true,
+                        cwd: "src",
+                        src: ["js/lib/*.js"],
+                        dest: "./dist/"
+                    }]
             }
         },
         watch: {
             scripts: {
-                files: ["./src/**/*.js"],
-                tasks: ["browserify"]
+                files: ["./src/**"],
+                tasks: ["browserify", "uglify", "copy"]
             }
         },
         clean :{
@@ -48,6 +48,18 @@ module.exports = function (grunt) {
                 "force": true
             },
             dist: ["./dist/**/*"]
+        },
+        uglify: {
+            options: {
+                mangle: {
+                    except: ['jQuery', 'Moment']
+                }
+            },
+            my_target: {
+                files: {
+                    'dist/js/app.min.js': ['dist/js/app.js']
+                }
+            }
         }
     });
 
@@ -55,8 +67,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-contrib-copy");
     grunt.loadNpmTasks("grunt-contrib-clean");
+    grunt.loadNpmTasks("grunt-contrib-uglify");
 
-    grunt.registerTask("default", ["build", "watch"]);
+    grunt.registerTask("default", ["build", "uglify", "watch"]);
     grunt.registerTask("build", ["browserify","copy"]);
     grunt.registerTask("clean", ["clean"]);
 };

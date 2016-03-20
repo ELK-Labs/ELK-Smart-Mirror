@@ -5,11 +5,11 @@
 //! elklabs.io
 
 import { config } from './config';
-let $ = require('jquery');
 
 
 export class Message {
-    constructor() {
+    constructor(jquery) {
+        this.$ = jquery;
         this.apiEndpoint = config.Message.quote.apiEndpoint;
         this.apiKey = config.Message.quote.apiKey
     }
@@ -19,13 +19,13 @@ export class Message {
     }
 
     quote() {
-        $.ajax({
-            url: this.apiEndpoint,
+        this.$.ajax({
+            url: `${ this.apiEndpoint }`,
             type: "GET",
             data: {},
             dataType: 'json',
             success: (data) => {
-                // todo add message to index.html
+
             },
             error: () => {
                 console.log("ah fuck");

@@ -5,14 +5,13 @@
 //! elklabs.io
 
 import { config } from './config';
-let $ = require('jquery');
-let parser = require('parse-rss');
 
 export class News {
-    constructor() {
-        this.intervalID = 0;
-        this.intervalID_show = 0;
-        this.feeds  = config.News.feeds || null;
+
+    constructor(parse, jquery) {
+        this.parse = parse;
+        this.$ = jquery;
+        this.feed  = config.News.feed || null;
         this.newsLoc = config.News.location;
         this.newsItems = [];
         this.seenItems = [];
@@ -23,34 +22,34 @@ export class News {
 
     update() {
 
-        for(let i = 0; i < this.feeds.length; i++) {
+        this.parse( config.CORSProxy + "/" + this.feed, (error, rss) => {
 
-            let tempItems = [];
-            parser('http://cors.io/?u=' + this.feeds[i], (error, rss) => {
-                for (let j = 0; j < this.maxNewsItems; j++) {
-                    tempItems.push(rss[j]);
+            let itemCount = rss.length <= this.maxNewsItems ? rss.length : this.maxNewsItems;
+
+            if(!error) {
+                for(let i = 0; i < itemCount; i++) {
+                    this.newsItems.push(rss[i]);
                 }
-            });
 
-            this.newsItems.push(tempItems);
-        }
+                this.show();
+            }
 
-        this.seenItems = [];
+        });
     }
 
     show() {
-        // todo create a way to show the collected feeds on index.html
+        this.$(this.newsLoc)
     }
 
     init() {
         this.update();
         this.show();
 
-        this.intervalID = setInterval(() => {
+        setInterval(() => {
             this.update();
         }, this.updateInterval);
 
-        this.intervalID_show = setInterval(() => {
+        setInterval(() => {
             this.show();
         }, this.showInterval);
 

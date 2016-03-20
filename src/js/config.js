@@ -7,7 +7,11 @@
 import { keys } from "./keys";
 
 export const config = {
+
     Locale: 'en-ie',
+
+    CORSProxy: 'https://crossorigin.me',
+
     Time: {
         timeLoc: '.time',
         dateLoc: '.date',
@@ -15,16 +19,12 @@ export const config = {
         updateInterval: 1000
     },
     News: {
-        feeds: [
-            'http://www.independent.ie/breaking-news/rss/',
-            'http://www.independent.ie/breaking-news/irish-news/rss/',
-            'http://www.independent.ie/world-news/rss/',
-            'http://www.independent.ie/entertainment/rss/'
-        ],
+        feed: 'http://www.rte.ie/news/rss/news-headlines.xml',
         location: '.news',
         updateInterval: 1800000, // 30 minutes
         showInterval: 60000,
-        maxNewsItems: 25
+        maxNewsItems: 25,
+        maxDisplayItems: 5
     },
 
     Weather: {
@@ -73,5 +73,7 @@ export const config = {
                 "Get to Bed!"
             ]
         }
-    }
+    },
+
+
 };
