@@ -11,8 +11,11 @@ export class Time {
         this.moment = moment;
         this.$ = jQuery;
         this.updateInterval = config.Time.updateInterval || 1000;
-        this.timeLoc = config.Time.timeLoc;
+        this.timeLoc = "." + config.Time.timeLoc;
+        this.dateLoc = "." + config.Time.dateLoc;
         this.locale = config.Locale;
+        this.format = config.Time.format;
+        this.dateFormat = config.Time.dateFormat;
     }
 
     init() {
@@ -23,7 +26,11 @@ export class Time {
     }
 
     update () {
-        let now = this.moment().locale(this.locale).format("h:mm:ss A");
-        this.$(this.timeLoc).html(now);
+
+        let timeHtml = `<span>${ this.moment().locale(this.locale).format(this.format)} </span>`;
+        let dateHtml = `<span>${ this.moment().locale(this.locale).format(this.dateFormat) }</span>`;
+
+        this.$(this.timeLoc).html(timeHtml);
+        this.$(this.dateLoc).html(dateHtml);
     }
 }

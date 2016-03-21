@@ -19,6 +19,10 @@ export class News {
         this.maxNewsItemsPerFeed = config.News.maxNewsItemsPerFeed || 25;
         this.maxDisplayItems = config.News.maxDisplayItems || 5;
         this.YQL = "https://query.yahooapis.com/v1/public/yql?format=json&q=select+title+from+rss+where+url%3D";
+
+        if(config.Proxy.use) {
+            this.YQL = config.Proxy.url + this.YQL;
+        }
     }
 
     init() {
@@ -65,7 +69,7 @@ export class News {
         }
         newsHtml += '</ul>';
 
-        this.$(this.newsLoc).updateWithFade(newsHtml, 200);
+        this.$(this.newsLoc).updateWithFade(newsHtml, config.animationDuration);
 
         this.seenItems.push(this.newsItems.shift());
 

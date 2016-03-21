@@ -10,17 +10,31 @@ import { config } from './config';
 export class Message {
     constructor(jquery) {
         this.$ = jquery;
+        this.useQuote = config.Message.useQuote;
         this.apiEndpoint = config.Message.quote.apiEndpoint;
         this.apiKey = config.Message.quote.apiKey;
         this.updateInterval = config.Message.updateInterval;
         this.messageLoc = "." + config.Message.messageLocation;
+
+        if(config.Proxy.use) {
+            this.apiEndpoint = config.Proxy.url + this.apiEndpoint;
+        }
     }
 
     init() {
-        this.quote();
+
+        if(this.useQuote) {
+            this.quote();
+        } else {
+            this.personalMessage();
+        }
 
         setInterval(() => {
-            this.quote();
+            if(this.useQuote) {
+                this.quote();
+            } else {
+                this.personalMessage();
+            }
         }, this.updateInterval);
     }
 
@@ -31,7 +45,8 @@ export class Message {
             data: {},
             dataType: 'json',
             success: (data) => {
-                this.$(this.messageLoc).html(`<span>&quot;${ data.quote }&quot;</span><span> &#8211; ${ data.author }</span>`);
+                this.$(this.messageLoc)
+                    .updateWithFade(`<span>&quot;${ data.quote }&quot;</span><span> &#8211; ${ data.author }</span>`, config.animationDuration);
             },
             error: () => {
                 console.log("Unable to retrieve quote");

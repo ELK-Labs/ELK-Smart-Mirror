@@ -20,23 +20,22 @@ export const config = {
     // view locales here http://momentjs.com/#multiple-locale-support
     Locale: 'en-ie',
 
-    //if you are having trouble with cross origin errors, use one of the following (1st one is best) & set proxy to true
-    //CORSProxy: 'https://crossorigin.me/',
-    //CORSProxy: 'http://cors.io/?u=',
-
+    //if you are having trouble with cross origin errors, set use to true. you can use either url, but the first one is better
     Proxy: {
         use: false,
         url: 'https://crossorigin.me/'
+        // url: 'http://cors.io/?u='
     },
 
-    // the fade out + in duration, set to 1 to disable NOT 0 (computers hate dividing by zero)
+    // The fade out + in duration, set to 1 to disable NOT 0 (computers hate dividing by zero)
     animationDuration: 1000,
 
     Time: {
         timeLoc: 'time',
         dateLoc: 'date',
-        updateInterval: 1000, // how often the time will refresh
-        format: 'h:mm:ss A' // view formatting info here http://momentjs.com/docs/#/parsing/string-format/
+        updateInterval: 1000, // How often the time will refresh
+        format: 'h:mm:ss A', // View formatting info here http://momentjs.com/docs/#/parsing/string-format/
+        dateFormat: 'Do MMM YYYY'
     },
 
     News: {

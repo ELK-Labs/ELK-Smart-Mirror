@@ -98,6 +98,10 @@ export class Weather {
         if (!this.useMetric) {
             this.units = "us";
         }
+
+        if(config.Proxy.use) {
+            this.apiBase = config.Proxy.url + this.apiBase;
+        }
     }
 
     init() {
@@ -155,7 +159,7 @@ export class Weather {
             dayTime = true;
         }
 
-        if(Math.abs(temp - apparentTemp) > -1) {
+        if(Math.abs(temp - apparentTemp) > 1) {
             feelsLikeHtml = `<span>Feels like ${ apparentTemp } &deg;</span>`;
         }
 
@@ -171,7 +175,7 @@ export class Weather {
             let forecast = data.daily.data[i];
             forecastHtml += `<tr style="opacity:${ opacity }">`;
             forecastHtml += `<td class="day"> ${ this.moment(forecast.time, 'X').format('ddd') }</td>`;
-            forecastHtml += `<td class="icon-small wi ${ this.iconTable[forecast.icon] }"></td>`;
+            forecastHtml += `<td class="forecast-icon wi ${ this.iconTable[forecast.icon] }"></td>`;
             forecastHtml += `<td class="temp-min"> Low: ${ this._roundValue(forecast.temperatureMin, 1) } &deg; </td>`;
             forecastHtml += `<td class="temp-max"> High: ${ this._roundValue(forecast.temperatureMax, 1) } &deg; </td>`;
             forecastHtml += '</tr>';
@@ -180,12 +184,12 @@ export class Weather {
         }
         forecastHtml += '</table>';
 
-        this.$(this.summaryLoc).html(summaryHtml);
-        this.$(this.currentLoc).html(currentTempHtml);
-        this.$(this.feelsLikeLoc).html(feelsLikeHtml);
-        this.$(this.windLoc).html(windHtml);
-        this.$(this.sunLoc).html(sunHTML);
-        this.$(this.forecastLoc).html(forecastHtml);
+        this.$(this.summaryLoc).updateWithFade(summaryHtml, config.animationDuration);
+        this.$(this.currentLoc).updateWithFade(currentTempHtml, config.animationDuration);
+        this.$(this.feelsLikeLoc).updateWithFade(feelsLikeHtml, config.animationDuration);
+        this.$(this.windLoc).updateWithFade(windHtml, config.animationDuration);
+        this.$(this.sunLoc).updateWithFade(sunHTML, config.animationDuration);
+        this.$(this.forecastLoc).updateWithFade(forecastHtml, config.animationDuration);
     }
 
     _icon(icon, moonPhase, isDaytime) {
