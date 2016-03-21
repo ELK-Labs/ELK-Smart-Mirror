@@ -20,8 +20,8 @@ export const config = {
         updateInterval: 1000
     },
     News: {
-        feed: 'http://www.rte.ie/news/rss/news-headlines.xml',
-        location: '.news',
+        feed: 'http://waterfordwhispersnews.com/category/breaking-news/feed/',
+        location: 'news',
         updateInterval: 1800000, // 30 minutes
         showInterval: 60000,
         maxNewsItems: 25,
@@ -45,8 +45,9 @@ export const config = {
     },
 
     Message: {
-        messageLocation: "",
+        messageLocation: "message",
         useQuotes: false,
+        updateInterval: 3600000,
         quote: {
             apiEndpoint: "https://andruxnet-random-famous-quotes.p.mashape.com/",
             apiKey: keys.quote

@@ -11,11 +11,17 @@ export class Message {
     constructor(jquery) {
         this.$ = jquery;
         this.apiEndpoint = config.Message.quote.apiEndpoint;
-        this.apiKey = config.Message.quote.apiKey
+        this.apiKey = config.Message.quote.apiKey;
+        this.updateInterval = config.Message.updateInterval;
+        this.messageLoc = "." + config.Message.messageLocation;
     }
 
     init() {
+        this.quote();
 
+        setInterval(() => {
+            this.quote();
+        }, this.updateInterval);
     }
 
     quote() {
@@ -25,7 +31,7 @@ export class Message {
             data: {},
             dataType: 'json',
             success: (data) => {
-
+                this.$(this.messageLoc).html(`<span>&quot;${ data.quote }&quot;</span><span> &#8211; ${ data.author }</span>`);
             },
             error: () => {
                 console.log("ah fuck");

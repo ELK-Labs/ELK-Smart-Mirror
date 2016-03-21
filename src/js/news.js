@@ -12,17 +12,18 @@ export class News {
         this.parse = parse;
         this.$ = jquery;
         this.feed  = config.News.feed || null;
-        this.newsLoc = config.News.location;
+        this.newsLoc = "." + config.News.location;
         this.newsItems = [];
         this.seenItems = [];
         this.updateInterval = config.News.updateInterval || 300000;
         this.showInterval = config.News.showInterval || 60000;
         this.maxNewsItems = config.News.maxNewsItems || 25;
+        this.maxDisplayItems = config.News.maxDisplayItems || 5;
     }
 
     update() {
 
-        this.parse( config.CORSProxy + "/" + this.feed, (error, rss) => {
+        this.parse( config.CORSProxy + this.feed, (error, rss) => {
 
             let itemCount = rss.length <= this.maxNewsItems ? rss.length : this.maxNewsItems;
 
@@ -38,12 +39,21 @@ export class News {
     }
 
     show() {
-        this.$(this.newsLoc)
+        let newsHtml = `<ul>`;
+
+        for(let i = 0; i < this.maxDisplayItems; i++ ) {
+
+            newsHtml += `<li><span>${ this.newsItems[i].title }</span></li>`
+
+        }
+
+        newsHtml += '</ul>';
+
+        this.$(this.newsLoc).html(newsHtml);
     }
 
     init() {
         this.update();
-        this.show();
 
         setInterval(() => {
             this.update();

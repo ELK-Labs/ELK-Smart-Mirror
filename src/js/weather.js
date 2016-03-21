@@ -132,7 +132,7 @@ export class Weather {
                 let sunset = this.moment(data.daily.data[0].sunsetTime*1000).format("HH:mm A");
                 let moon = Math.round(27*(data.daily.data[0].moonPhase + 0.018));
                 let feelsLikeHtml = `<span></span>`;
-                let summaryHtml = `<span>${ data.hourly.summary }</span>`;
+                let summaryHtml = `<span>${ data.minutely.summary }</span>`;
                 let windHtml = `<span><i class="wi wi-strong-wind"></i> ${ windDirection } @ ${ wind } ${ this.windUnit }</span>`;
                 let sunHTML = `<span><i class="wi wi-sunrise"></i> @ ${ sunrise }</span>`;
 
@@ -158,8 +158,8 @@ export class Weather {
                     forecastHtml += `<tr style="opacity:${ opacity }">`;
                     forecastHtml += `<td class="day"> ${ this.moment(forecast.time, 'X').format('ddd') }</td>`;
                     forecastHtml += `<td class="icon-small wi ${ this.iconTable[forecast.icon] }"></td>`;
-                    forecastHtml += `<td class="temp-max"> High: ${ this._roundValue(forecast.temperatureMax, 1) } </td>`;
                     forecastHtml += `<td class="temp-min"> Low: ${ this._roundValue(forecast.temperatureMin, 1) } </td>`;
+                    forecastHtml += `<td class="temp-max"> High: ${ this._roundValue(forecast.temperatureMax, 1) } </td>`;
                     forecastHtml += '</tr>';
                     opacity -= 0.125;
 

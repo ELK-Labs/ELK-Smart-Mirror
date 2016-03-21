@@ -20,7 +20,7 @@ let weather = new Weather($, moment);
 let message = new Message($);
 
 time.init();
-news.init();
 weather.init();
+news.init();
 
-message.quote();
+message.init();
