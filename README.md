@@ -1,5 +1,7 @@
 # **ELK Labs Smart Mirror**
 
+## **This is a work in progress and is NOT FINISHED YET**
+
 ## Introduction
 This is the front end for a rasberry pi based smart mirror device. The software is a javascript based web project written in es6 using Browserify and jQuery.
 
