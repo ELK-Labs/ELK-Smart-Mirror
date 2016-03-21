@@ -1,5 +1,4 @@
 # **ELK Labs Smart Mirror**
----
 
 ## Introduction
 This is the front end for a rasberry pi based smart mirror device. The software is a javascript based web project written in es6 using Browserify and jQuery.
@@ -107,7 +106,7 @@ Major inspiration came from [http://michaelteeuw.nl/](http://michaelteeuw.nl/) a
 
 [ANDRUXNET](https://market.mashape.com/andruxnet) For their free quotes API
 
-[jQuery](https://jquery.com/), [Node JS](https://nodejs.org/en/), [Grunt JS](http://gruntjs.com/), [browserify](http://browserify.org/),[Babel JS](https://babeljs.io) all for being great software
+[jQuery](https://jquery.com/), [Node JS](https://nodejs.org/en/), [Grunt JS](http://gruntjs.com/), [browserify](http://browserify.org/), [Babel JS](https://babeljs.io) all for being great software
 
 
 
