@@ -72,7 +72,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-contrib-clean");
     grunt.loadNpmTasks("grunt-contrib-uglify");
 
-    grunt.registerTask("default", ["build", "uglify", "watch"]);
-    grunt.registerTask("build", ["browserify","copy"]);
+    grunt.registerTask("default", ["build", "watch"]);
+    grunt.registerTask("build", ["browserify","copy", "uglify"]);
     grunt.registerTask("clean", ["clean"]);
 };

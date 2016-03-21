@@ -10,7 +10,7 @@ import { Weather } from './weather';
 import { Message } from './message';
 
 const $ = require('jquery');
-
+const moment = require('moment');
 
 $.fn.updateWithFade = function(data, duration) {
     this.fadeOut(duration / 2, () => {
@@ -19,8 +19,6 @@ $.fn.updateWithFade = function(data, duration) {
         this.fadeIn(duration / 2);
     });
 };
-
-const moment = require('moment');
 
 $(document).ready(() => {
 
