@@ -7,7 +7,7 @@
 import { config } from './config';
 
 export class Time {
-    constructor(moment, jQuery) {
+    constructor(jQuery, moment) {
         this.moment = moment;
         this.$ = jQuery;
         this.updateInterval = config.Time.updateInterval || 1000;

@@ -22,10 +22,10 @@ $.fn.updateWithFade = function(data, duration) {
 
 $(document).ready(() => {
 
-    let time = new Time(moment, $);
+    let time = new Time($, moment);
     let news = new News($);
     let weather = new Weather($, moment);
-    let message = new Message($);
+    let message = new Message($, moment);
 
     time.init();
     weather.init();

@@ -8,8 +8,9 @@ import { config } from './config';
 
 
 export class Message {
-    constructor(jquery) {
+    constructor(jquery, moment) {
         this.$ = jquery;
+        this.moment = moment;
         this.useQuote = config.Message.useQuote;
         this.apiEndpoint = config.Message.quote.apiEndpoint;
         this.apiKey = config.Message.quote.apiKey;
