@@ -8,48 +8,17 @@ import { config } from './config';
 
 export class News {
 
-    constructor(parse, jquery) {
-        this.parse = parse;
+    constructor(jquery) {
         this.$ = jquery;
-        this.feed  = config.News.feed || null;
+        this.feeds  = config.News.feeds || null;
         this.newsLoc = "." + config.News.location;
         this.newsItems = [];
         this.seenItems = [];
         this.updateInterval = config.News.updateInterval || 300000;
         this.showInterval = config.News.showInterval || 60000;
-        this.maxNewsItems = config.News.maxNewsItems || 25;
+        this.maxNewsItemsPerFeed = config.News.maxNewsItemsPerFeed || 25;
         this.maxDisplayItems = config.News.maxDisplayItems || 5;
-    }
-
-    update() {
-
-        this.parse( config.CORSProxy + this.feed, (error, rss) => {
-
-            let itemCount = rss.length <= this.maxNewsItems ? rss.length : this.maxNewsItems;
-
-            if(!error) {
-                for(let i = 0; i < itemCount; i++) {
-                    this.newsItems.push(rss[i]);
-                }
-
-                this.show();
-            }
-
-        });
-    }
-
-    show() {
-        let newsHtml = `<ul>`;
-
-        for(let i = 0; i < this.maxDisplayItems; i++ ) {
-
-            newsHtml += `<li><span>${ this.newsItems[i].title }</span></li>`
-
-        }
-
-        newsHtml += '</ul>';
-
-        this.$(this.newsLoc).html(newsHtml);
+        this.YQL = "https://query.yahooapis.com/v1/public/yql?format=json&q=select+title+from+rss+where+url%3D";
     }
 
     init() {
@@ -63,6 +32,71 @@ export class News {
             this.show();
         }, this.showInterval);
 
+    }
+
+    update() {
+
+        this.feeds.forEach((feed) => {
+            this.$.ajax({
+                type: 'GET',
+                url: `${ this.YQL }"${ encodeURIComponent(feed) }"`,
+                dataType: 'jsonp',
+                data: {},
+                success: (data) => {
+                    this._handleData(data.query.results.item);
+            },
+                error: () => {
+                    console.log('Error retrieving weather');
+                }
+            });
+        });
+
+        this.$(document).ajaxStop(() => {
+            this.newsItems = this._shuffel(this.newsItems);
+            this.show();
+        });
+    }
+
+    show() {
+
+        let newsHtml = `<ul>`;
+        for(let i = 0; i < this.maxDisplayItems; i++ ) {
+            newsHtml += `<li><span>${ this.newsItems[i].title }</span></li>`
+        }
+        newsHtml += '</ul>';
+
+        this.$(this.newsLoc).updateWithFade(newsHtml, 200);
+
+        this.seenItems.push(this.newsItems.shift());
+
+        if(this.newsItems.length == this.maxDisplayItems) {
+            this.newsItems.push.apply(this.newsItems, this.seenItems);
+            this.seenItems = [];
+        }
+    }
+
+    _handleData(data) {
+        if(data.length > this.maxNewsItemsPerFeed) {
+            data = data.slice(0, this.maxNewsItemsPerFeed);
+        }
+
+        this.newsItems.push.apply(this.newsItems, data);
+    }
+
+    _shuffel(array){
+        let counter = array.length;
+
+        while (counter > 0) {
+            let index = Math.floor(Math.random() * counter);
+
+            counter--;
+
+            let temp = array[counter];
+            array[counter] = array[index];
+            array[index] = temp;
+        }
+
+        return array;
     }
 
 }

@@ -14,8 +14,7 @@
     "grunt-contrib-uglify": "^1.0.1",
     "grunt-contrib-watch": "^1.0.0",
     "jquery": "^2.2.2",
-    "moment": "^2.12.0",
-    "parse-rss": "^1.0.3"
+    "moment": "^2.12.0"
   },
   "scripts": {
     "test": ""

@@ -10,8 +10,8 @@ export const config = {
 
     Locale: 'en-ie',
 
-    //CORSProxy: 'https://crossorigin.me',
-    CORSProxy: 'http://cors.io/?u=',
+    CORSProxy: 'https://crossorigin.me/',
+    //CORSProxy: 'http://cors.io/?u=',
 
     Time: {
         timeLoc: '.time',
@@ -20,19 +20,22 @@ export const config = {
         updateInterval: 1000
     },
     News: {
-        feed: 'http://waterfordwhispersnews.com/category/breaking-news/feed/',
+        feeds: [
+            'http://waterfordwhispersnews.com/category/breaking-news/feed/',
+            'http://www.theonion.com/feeds/rss'
+        ],
         location: 'news',
         updateInterval: 1800000, // 30 minutes
         showInterval: 60000,
-        maxNewsItems: 25,
+        maxNewsItemsPerFeed: 25,
         maxDisplayItems: 5
     },
 
     Weather: {
         apiKey: keys.weather,
         apiBase: "https://api.forecast.io/forecast",
-        lat: 53.4433,
-        long: -6.2,
+        lat: 53.3478,
+        long: -6.2597,
         useMetric: true,
         useKnots: false,
         feelsLikeLoc: "feelslike",

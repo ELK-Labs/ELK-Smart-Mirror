@@ -34,7 +34,7 @@ export class Message {
                 this.$(this.messageLoc).html(`<span>&quot;${ data.quote }&quot;</span><span> &#8211; ${ data.author }</span>`);
             },
             error: () => {
-                console.log("ah fuck");
+                console.log("Unable to retrieve quote");
             },
             beforeSend: (xhr) => {
                 xhr.setRequestHeader("X-Mashape-Authorization", this.apiKey);

@@ -88,7 +88,7 @@ export class Weather {
         };
 
         if(this.useKnots){
-            this.windUnit = "Kn"
+            this.windUnit = "kn"
         } else if(this.useMetric) {
             this.windUnit = "kph";
         } else {
@@ -110,74 +110,82 @@ export class Weather {
     }
 
     update() {
+
         this.$.ajax({
             type: 'GET',
-            url: `${ config.CORSProxy }${ this.apiBase }/${ this.apiKey }/${ this.lat },${ this.long }?units=${ this.units }`,
-            dataType: 'json',
+            url: `${ this.apiBase }/${ this.apiKey }/${ this.lat },${ this.long }?units=${ this.units }`,
+            dataType: 'jsonp',
             data: {},
             success: (data) => {
-
-                let temp = this._roundValue(data.currently.temperature, 2);
-                let apparentTemp = this._roundValue(data.currently.apparentTemperature, 2);
-                let wind = 0;
-                let dayTime = false;
-                if(this.useKnots){
-                    wind = this._windToKnots(data.currently.windSpeed, this.useMetric);
-                } else {
-                    wind = this._roundValue(data.currently.windSpeed, 2);
-                }
-                let windDirection = this._windDirection(data.currently.windBearing);
-                let now = this.moment().locale(config.Locale).format("HH:mm");
-                let sunrise = this.moment(data.daily.data[0].sunriseTime*1000).format("HH:mm A");
-                let sunset = this.moment(data.daily.data[0].sunsetTime*1000).format("HH:mm A");
-                let moon = Math.round(27*(data.daily.data[0].moonPhase + 0.018));
-                let feelsLikeHtml = `<span></span>`;
-                let summaryHtml = `<span>${ data.minutely.summary }</span>`;
-                let windHtml = `<span><i class="wi wi-strong-wind"></i> ${ windDirection } @ ${ wind } ${ this.windUnit }</span>`;
-                let sunHTML = `<span><i class="wi wi-sunrise"></i> @ ${ sunrise }</span>`;
-
-                if(sunrise < now && sunset > now) {
-                    sunHTML = `<span><i class="wi wi-sunset"></i> @ ${ sunset }</span>`;
-                    dayTime = true;
-                }
-
-                if(Math.abs(temp - apparentTemp) > 1) {
-                    feelsLikeHtml = `<span>Feels like ${ apparentTemp } &deg;</span>`;
-                }
-
-                let icon = this._icon(data.currently.icon, moon, dayTime);
-
-                let currentTempHtml = `<span><i class="wi ${ icon }"></i> ${ temp } &deg;</span>`;
-
-                let opacity = 1;
-                let forecastHtml = '<table class="forecast-table">';
-
-                for (let i = 0, count = data.daily.data.length; i < count; i++) {
-
-                    let forecast = data.daily.data[i];
-                    forecastHtml += `<tr style="opacity:${ opacity }">`;
-                    forecastHtml += `<td class="day"> ${ this.moment(forecast.time, 'X').format('ddd') }</td>`;
-                    forecastHtml += `<td class="icon-small wi ${ this.iconTable[forecast.icon] }"></td>`;
-                    forecastHtml += `<td class="temp-min"> Low: ${ this._roundValue(forecast.temperatureMin, 1) } </td>`;
-                    forecastHtml += `<td class="temp-max"> High: ${ this._roundValue(forecast.temperatureMax, 1) } </td>`;
-                    forecastHtml += '</tr>';
-                    opacity -= 0.125;
-
-                }
-                forecastHtml += '</table>';
-
-                this.$(this.summaryLoc).html(summaryHtml);
-                this.$(this.currentLoc).html(currentTempHtml);
-                this.$(this.feelsLikeLoc).html(feelsLikeHtml);
-                this.$(this.windLoc).html(windHtml);
-                this.$(this.sunLoc).html(sunHTML);
-                this.$(this.forecastLoc).html(forecastHtml);
-
+                this._handleData(data);
             },
             error: () => {
                 console.log('Error retrieving weather');
             }
         });
+
+    }
+
+    _handleData(data) {
+        let temp = Math.ceil(data.currently.temperature);
+        let apparentTemp = Math.ceil(data.currently.apparentTemperature);
+        let wind = 0;
+        let dayTime = false;
+        if(this.useKnots){
+            wind = this._windToKnots(data.currently.windSpeed, this.useMetric);
+        } else {
+            if(this.useMetric) {
+                wind = this._roundValue(data.currently.windSpeed * 3.6, 2);
+            } else {
+                wind = this._roundValue(data.currently.windSpeed, 2);
+            }
+        }
+        let windDirection = this._windDirection(data.currently.windBearing);
+        let now = this.moment().locale(config.Locale).format("HH:mm");
+        let sunrise = this.moment(data.daily.data[0].sunriseTime*1000).format("HH:mm A");
+        let sunset = this.moment(data.daily.data[0].sunsetTime*1000).format("HH:mm A");
+        let moon = Math.round(27*(data.daily.data[0].moonPhase + 0.018));
+        let feelsLikeHtml = `<span></span>`;
+        let summaryHtml = `<span>${ data.minutely.summary }</span>`;
+        let windHtml = `<span><i class="wi wi-strong-wind"></i> ${ windDirection } @ ${ wind } ${ this.windUnit }</span>`;
+        let sunHTML = `<span><i class="wi wi-sunrise"></i> @ ${ sunrise }</span>`;
+
+        if(sunrise < now && sunset > now) {
+            sunHTML = `<span><i class="wi wi-sunset"></i> @ ${ sunset }</span>`;
+            dayTime = true;
+        }
+
+        if(Math.abs(temp - apparentTemp) > -1) {
+            feelsLikeHtml = `<span>Feels like ${ apparentTemp } &deg;</span>`;
+        }
+
+        let icon = this._icon(data.currently.icon, moon, dayTime);
+
+        let currentTempHtml = `<span><i class="wi ${ icon }"></i> ${ temp } &deg;</span>`;
+
+        let opacity = 1;
+        let forecastHtml = '<table class="forecast-table">';
+
+        for (let i = 0, count = data.daily.data.length; i < count; i++) {
+
+            let forecast = data.daily.data[i];
+            forecastHtml += `<tr style="opacity:${ opacity }">`;
+            forecastHtml += `<td class="day"> ${ this.moment(forecast.time, 'X').format('ddd') }</td>`;
+            forecastHtml += `<td class="icon-small wi ${ this.iconTable[forecast.icon] }"></td>`;
+            forecastHtml += `<td class="temp-min"> Low: ${ this._roundValue(forecast.temperatureMin, 1) } &deg; </td>`;
+            forecastHtml += `<td class="temp-max"> High: ${ this._roundValue(forecast.temperatureMax, 1) } &deg; </td>`;
+            forecastHtml += '</tr>';
+            opacity -= 0.125;
+
+        }
+        forecastHtml += '</table>';
+
+        this.$(this.summaryLoc).html(summaryHtml);
+        this.$(this.currentLoc).html(currentTempHtml);
+        this.$(this.feelsLikeLoc).html(feelsLikeHtml);
+        this.$(this.windLoc).html(windHtml);
+        this.$(this.sunLoc).html(sunHTML);
+        this.$(this.forecastLoc).html(forecastHtml);
     }
 
     _icon(icon, moonPhase, isDaytime) {
@@ -237,7 +245,7 @@ export class Weather {
 
     _windToKnots(windSpeed, metric) {
         if(metric) {
-            return parseFloat(windSpeed * 0.539957).toFixed(2);
+            return parseFloat(windSpeed * 1.94384).toFixed(2);
         } else {
             return parseFloat(windSpeed * 0.868976).toFixed(2);
         }

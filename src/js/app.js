@@ -11,16 +11,28 @@ import { Message } from './message';
 
 const $ = require('jquery');
 
+
+$.fn.updateWithFade = function(data, duration) {
+    this.fadeOut(duration / 2, () => {
+        this.empty();
+        this.html(data);
+        this.fadeIn(duration / 2);
+    });
+};
+
 const moment = require('moment');
-const parseRss = require('parse-rss');
 
-let time = new Time(moment, $);
-let news = new News(parseRss, $);
-let weather = new Weather($, moment);
-let message = new Message($);
+$(document).ready(() => {
 
-time.init();
-weather.init();
-news.init();
+    let time = new Time(moment, $);
+    let news = new News($);
+    let weather = new Weather($, moment);
+    let message = new Message($);
 
-message.init();
+    time.init();
+    weather.init();
+    news.init();
+
+    message.init();
+
+});
