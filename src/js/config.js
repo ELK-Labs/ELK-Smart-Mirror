@@ -100,10 +100,13 @@ export const config = {
                 "Get to Bed!"
             ]
         },
-        birthdays: [ // dates are in standard format (not us) so DD/MM
-            ["First Birthday Name", "01/04"],
-            ["Second Birthday Name", "23/03"]
-        ]
+        birthdays: {
+            dateFormat: 'DD/MM', // For American style date MM/DD Don't include the year just the day and month.
+            list: [
+                ['Peter', '01/04'],
+                ['Olwen', '22/03']
+            ]
+        }
     }
 
 };
