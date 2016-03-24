@@ -19,6 +19,7 @@ export class Message {
         this.apiKey = config.Message.quote.apiKey;
         this.updateInterval = config.Message.updateInterval;
         this.messageLoc = "." + config.Message.messageLocation;
+        this.currentMessages = [0,0,0,0];
 
         if(config.Proxy.use) {
             this.apiEndpoint = config.Proxy.url + this.apiEndpoint;
@@ -27,8 +28,6 @@ export class Message {
 
     init() {
 
-        //this.personalMessage();
-        this.birthday();
         this.update();
 
         setInterval(() => {
@@ -37,8 +36,13 @@ export class Message {
     }
 
     update() {
-        if(this.useQuote){
-            this.quote();
+
+        if(!this.birthday()){
+            if(this.useQuote){
+                this.quote();
+            } else {
+                this.personalMessage();
+            }
         }
     }
 
@@ -69,23 +73,37 @@ export class Message {
         const twelveAM = '24:00';
 
         if(now >= sixAM && now < twelvePM) {
-            this.$(this.messageLoc).updateWithFade(`<span>${ this.messages.morning[0] }</span>`, config.animationDuration);
+            if(this.currentMessages[0] ++ >= this.messages.morning.length - 1) {
+                this.currentMessages[0] = 0;
+            }
+            this.$(this.messageLoc).updateWithFade(`<span>${ this.messages.morning[this.currentMessages[0]] }</span>`, config.animationDuration);
+
         } else if(now >= twelvePM&& now < sixPM) {
-            this.$(this.messageLoc).updateWithFade(`<span>${ this.messages.evening[0] }</span>`, config.animationDuration);
+            if(this.currentMessages[1] ++ >= this.messages.evening.length - 1) {
+                this.currentMessages[1] = 0;
+            }
+            console.log(this.currentMessages[1]);
+            this.$(this.messageLoc).updateWithFade(`<span>${ this.messages.evening[this.currentMessages[1]] }</span>`, config.animationDuration);
         } else if(now >= sixPM && now < twelveAM) {
-            this.$(this.messageLoc).updateWithFade(`<span>${ this.messages.night[0] }</span>`, config.animationDuration);
+            if(this.currentMessages[2] ++ >= this.messages.night.length - 1) {
+                this.currentMessages[2] = 0;
+            }
+            this.$(this.messageLoc).updateWithFade(`<span>${ this.messages.night[this.currentMessages[2]] }</span>`, config.animationDuration);
         } else if(now >= twelveAM && now < sixAM) {
-            this.$(this.messageLoc).updateWithFade(`<span>${ this.messages.lateNight[0] }</span>`, config.animationDuration);
+            if(this.currentMessages[3] ++ >= this.messages.lateNight.length - 1) {
+                this.currentMessages[3] = 0;
+            }
+            this.$(this.messageLoc).updateWithFade(`<span>${ this.messages.lateNight[this.currentMessages[3]] }</span>`, config.animationDuration);
         }
     }
 
     birthday() {
-
         const today = this.moment().format(this.birthdayDateFormat);
 
         this.birthdays.list.forEach((birthday) => {
             if(birthday[1] == today){
                 this.$(this.messageLoc).html(`<span><i class="fa fa-birthday-cake"></i> Happy Birthday ${ birthday[0] }! <i class="fa fa-birthday-cake"></i></span>`);
+                return true;
             }
         });
     }
