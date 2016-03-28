@@ -50,8 +50,8 @@ export class Calendar {
         } else {
             if(this.attempts < 5) {
                 this.gapi.auth.authorize({
-                    client_id: CLIENT_ID,
-                    scope: SCOPES,
+                    client_id: this.clientID,
+                    scope: this.scopes,
                     immediate: false
                 }, (res2) => {
                     this.handleAuthResult(res2);
