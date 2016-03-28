@@ -8,9 +8,16 @@ import { Time } from './time';
 import { News } from './news';
 import { Weather } from './weather';
 import { Message } from './message';
+import { Calendar } from './calendar';
 
 const $ = require('jquery');
 const moment = require('moment');
+
+let time = new Time($, moment);
+let news = new News($);
+let weather = new Weather($, moment);
+let message = new Message($, moment);
+let calendar = new Calendar($, moment);
 
 $.fn.updateWithFade = function(data, duration) {
     this.fadeOut(duration / 2, () => {
@@ -20,17 +27,17 @@ $.fn.updateWithFade = function(data, duration) {
     });
 };
 
-$(document).ready(() => {
+window.oAuthCallBack = () => {
+    calendar.checkOAuth();
+};
 
-    let time = new Time($, moment);
-    let news = new News($);
-    let weather = new Weather($, moment);
-    let message = new Message($, moment);
+$(document).ready(() => {
 
     time.init();
     weather.init();
     news.init();
-
     message.init();
+    calendar.init();
 
 });
+

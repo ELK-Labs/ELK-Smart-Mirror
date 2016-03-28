@@ -107,5 +107,8 @@ export const config = {
                 ['Olwen', '22/03']
             ]
         }
+    },
+    Calendar: {
+        updateInterval: 3600000
     }
 };
