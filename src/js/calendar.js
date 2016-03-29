@@ -13,6 +13,7 @@ export class Calendar {
         this.clientID = '439661368471-bbb78jv01beseftgbvlg24tmjlru4ncv.apps.googleusercontent.com';
         this.scopes = ['https://www.googleapis.com/auth/calendar.readonly'];
         this.updateInterval = config.Calendar.updateInterval;
+        this.maxItems = config.Calendar.maxItems;
         this.attempts = 0;
     }
 
@@ -42,7 +43,6 @@ export class Calendar {
     handleAuthResult(res) {
 
         if(res && !res.error) {
-            console.log(res);
             this.gapi.client.load('calendar', 'v3', () => {
                 this.listUpcomingEvents();
             });
@@ -71,13 +71,13 @@ export class Calendar {
             'timeMin': (new Date()).toISOString(),
             'showDeleted': false,
             'singleEvents': true,
-            'maxResults': 10,
+            'maxResults': this.maxItems,
             'orderBy': 'startTime'
         });
 
-        request.execute(function(resp) {
+        request.execute((resp) => {
             let events = resp.items;
-
+            let html = '<ul>';
             if (events.length > 0) {
                 for (let i = 0; i < events.length; i++) {
                     let event = events[i];
@@ -85,11 +85,16 @@ export class Calendar {
                     if (!when) {
                         when = event.start.date;
                     }
-                    console.log(event.summary + ' (' + when + ')');
+                    let time = new this.moment(when).calendar();
+
+                    html += `<li><i class="fa fa-calendar"></i> <span>${ event.summary } - ${ time }</span></li>`;
                 }
             } else {
                 console.log('Error fetching Google Calendar Data');
             }
+
+            html += '</ul>';
+            this.$('.calendar').updateWithFade(html, 1000);
 
         });
     }

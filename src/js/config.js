@@ -109,6 +109,7 @@ export const config = {
         }
     },
     Calendar: {
-        updateInterval: 3600000
+        updateInterval: 900000,
+        maxItems: 5
     }
 };

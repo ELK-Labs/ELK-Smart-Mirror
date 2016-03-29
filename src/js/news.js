@@ -65,7 +65,7 @@ export class News {
 
         let newsHtml = `<ul>`;
         for(let i = 0; i < this.maxDisplayItems; i++ ) {
-            newsHtml += `<li><span>${ this.newsItems[i].title }</span></li>`
+            newsHtml += `<li><i class="fa fa-newspaper-o"></i><span>${ this.newsItems[i].title }</span></li>`
         }
         newsHtml += '</ul>';
 
