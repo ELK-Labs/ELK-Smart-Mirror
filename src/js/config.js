@@ -20,6 +20,9 @@ export const config = {
     // view locales here http://momentjs.com/#multiple-locale-support
     Locale: 'en-ie',
 
+    // Change this to MM/DD for American Dates
+    dateFormat: 'DD/MM',
+
     //if you are having trouble with cross origin errors, set use to true. you can use either url, but the first one is better
     Proxy: {
         use: false,
@@ -34,8 +37,8 @@ export const config = {
         timeLoc: 'time',
         dateLoc: 'date',
         updateInterval: 1000, // How often the time will refresh
-        format: 'h:mm:ss A', // View formatting info here http://momentjs.com/docs/#/parsing/string-format/
-        dateFormat: 'Do MMM YYYY'
+        format: `h:mm [<span class='am-pm'>]A[</span>]`, // View formatting info here http://momentjs.com/docs/#/parsing/string-format/
+        dateFormat: 'dddd [<br>] Do MMMM'
     },
 
     News: {
@@ -69,7 +72,7 @@ export const config = {
 
     Message: {
         messageLocation: "message",
-        useQuote: false,
+        useQuote: true,
         updateInterval: 1800000, // how often the quotes/messages update
         quote: {
             apiEndpoint: "https://andruxnet-random-famous-quotes.p.mashape.com/",
@@ -101,7 +104,6 @@ export const config = {
             ]
         },
         birthdays: {
-            dateFormat: 'DD/MM', // For American style date MM/DD Don't include the year just the day and month.
             list: [
                 ['Peter', '01/04'],
                 ['Olwen', '22/03']
@@ -110,6 +112,7 @@ export const config = {
     },
     Calendar: {
         updateInterval: 900000,
-        maxItems: 5
+        maxItems: 5,
+        calendarLocation: 'calendar'
     }
 };

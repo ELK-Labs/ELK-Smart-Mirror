@@ -15,6 +15,7 @@ export class Calendar {
         this.updateInterval = config.Calendar.updateInterval;
         this.maxItems = config.Calendar.maxItems;
         this.attempts = 0;
+        this.location = '.' + config.Calendar.calendarLocation;
     }
 
     init() {
@@ -85,16 +86,21 @@ export class Calendar {
                     if (!when) {
                         when = event.start.date;
                     }
-                    let time = new this.moment(when).calendar();
+                    let time = new this.moment(when).locale(config.Locale).calendar(null, {
+                        sameDay: '[Today] HH:mm',
+                        nextDay: '[Tomorrow] HH:mm',
+                        nextWeek: 'dddd HH:mm',
+                        sameElse: `${ config.dateFormat } HH:mm`
+                    });
 
-                    html += `<li><i class="fa fa-calendar"></i> <span>${ event.summary } - ${ time }</span></li>`;
+                    html += `<li><i class="fa fa-calendar"></i>&nbsp;<span>${ time } &#9866; ${ event.summary }</span></li>`;
                 }
             } else {
                 console.log('Error fetching Google Calendar Data');
             }
 
             html += '</ul>';
-            this.$('.calendar').updateWithFade(html, 1000);
+            this.$(this.location).updateWithFade(html, config.animationDuration);
 
         });
     }

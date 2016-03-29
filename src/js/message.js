@@ -14,7 +14,7 @@ export class Message {
         this.useQuote = config.Message.useQuote;
         this.messages = config.Message.messages;
         this.birthdays = config.Message.birthdays;
-        this.birthdayDateFormat = config.Message.birthdays.dateFormat;
+        this.birthdayDateFormat = config.dateFormat;
         this.apiEndpoint = config.Message.quote.apiEndpoint;
         this.apiKey = config.Message.quote.apiKey;
         this.updateInterval = config.Message.updateInterval;

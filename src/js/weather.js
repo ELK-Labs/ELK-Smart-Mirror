@@ -150,22 +150,22 @@ export class Weather {
         let sunset = this.moment(data.daily.data[0].sunsetTime*1000).format("HH:mm A");
         let moon = Math.round(27*(data.daily.data[0].moonPhase + 0.018));
         let feelsLikeHtml = `<span></span>`;
-        let summaryHtml = `<span>${ data.minutely.summary }</span>`;
-        let windHtml = `<span><i class="wi wi-strong-wind"></i> ${ windDirection } @ ${ wind } ${ this.windUnit }</span>`;
-        let sunHTML = `<span><i class="wi wi-sunrise"></i> @ ${ sunrise }</span>`;
+        let summaryHtml = `<span>${ data.hourly.summary }</span>`;
+        let windHtml = `<span><i class="wi wi-strong-wind"></i> ${ windDirection } at ${ wind } ${ this.windUnit }</span>`;
+        let sunHTML = `<span><i class="wi wi-sunrise"></i> at ${ sunrise }</span>`;
 
         if(sunrise < now && sunset > now) {
-            sunHTML = `<span><i class="wi wi-sunset"></i> @ ${ sunset }</span>`;
+            sunHTML = `<span><i class="wi wi-sunset"></i> at ${ sunset }</span>`;
             dayTime = true;
         }
 
         if(Math.abs(temp - apparentTemp) > 1) {
-            feelsLikeHtml = `<span>Feels like ${ apparentTemp } &deg;</span>`;
+            feelsLikeHtml = `<span>Feels like ${ apparentTemp }&deg;</span>`;
         }
 
         let icon = this._icon(data.currently.icon, moon, dayTime);
 
-        let currentTempHtml = `<span><i class="wi ${ icon }"></i> ${ temp } &deg;</span>`;
+        let currentTempHtml = `<span>${ temp }&deg;</span> <i class="wi ${ icon }"></i>`;
 
         let opacity = 1;
         let forecastHtml = '<table class="forecast-table">';
@@ -174,10 +174,15 @@ export class Weather {
 
             let forecast = data.daily.data[i];
             forecastHtml += `<tr style="opacity:${ opacity }">`;
-            forecastHtml += `<td class="day"> ${ this.moment(forecast.time, 'X').format('ddd') }</td>`;
+            forecastHtml += `<td class="day"> ${ this.moment(forecast.time, 'X').calendar(null, {
+                sameDay: '[Today]',
+                nextDay: '[Tomorrow]',
+                nextWeek: 'dddd',
+                sameElse: `${ config.dateFormat }`
+            }) }</td>`;
             forecastHtml += `<td class="forecast-icon wi ${ this.iconTable[forecast.icon] }"></td>`;
-            forecastHtml += `<td class="temp-min"> Low: ${ this._roundValue(forecast.temperatureMin, 1) } &deg; </td>`;
-            forecastHtml += `<td class="temp-max"> High: ${ this._roundValue(forecast.temperatureMax, 1) } &deg; </td>`;
+            forecastHtml += `<td class="temp-min"> Low: ${ Math.ceil(forecast.temperatureMin) }&deg; </td>`;
+            forecastHtml += `<td class="temp-max"> High: ${ Math.ceil(forecast.temperatureMax) }&deg; </td>`;
             forecastHtml += '</tr>';
             opacity -= 0.125;
 

@@ -1,4 +1,139 @@
+@font-face {
+    font-family: 'texgyreherosregular';
+    src: url('../font/texgyreheros-regular-webfont.eot');
+    src: url('../font/texgyreheros-regular-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../font/texgyreheros-regular-webfont.woff') format('woff'),
+    url('../font/texgyreheros-regular-webfont.ttf') format('truetype'),
+    url('../font/texgyreheros-regular-webfont.svg#texgyreherosregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'open_sanslight';
+    src: url('../font/OpenSans-Light-webfont.eot');
+    src: url('../font/OpenSans-Light-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../font/OpenSans-Light-webfont.woff') format('woff'),
+    url('../font/OpenSans-Light-webfont.ttf') format('truetype'),
+    url('../font/OpenSans-Light-webfont.svg#open_sanslight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'open_sansregular';
+    src: url('../font/OpenSans-Regular-webfont.eot');
+    src: url('../font/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+    url('../font/OpenSans-Regular-webfont.woff') format('woff'),
+    url('../font/OpenSans-Regular-webfont.ttf') format('truetype'),
+    url('../font/OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 body {
     background-color: black;
     color: white;
+    font-family: open_sansregular, Arial;
+}
+
+.weather-area {
+    display: block;
+    position: fixed;
+    left: 20px;
+    top: 20px;
+}
+
+.time-area {
+    display: block;
+    position: fixed;
+    right: 20px;
+    top: 20px;
+}
+
+.time {
+    font-size: 5em;
+}
+
+.am-pm {
+    font-size: 0.5em;
+}
+
+.date {
+    font-family: open_sanslight, Arial;
+    text-align: right;
+    font-size: 2em;
+    font-weight: 100;
+}
+
+.temp {
+    font-size: 5em;
+}
+
+.feelslike {
+    margin-top: -10px;
+    font-family: open_sanslight, Arial;
+    font-size: 2em;
+}
+
+.wind, .sun {
+    font-family: open_sanslight, Arial;
+    display: inline;
+}
+
+.sun::before {
+    content: " ⚊ ";
+}
+
+.forecast {
+    margin-top: 20px;
+}
+
+.weathersummary {
+    font-size: 1.5em;
+    font-family: open_sanslight, Arial;
+    padding-bottom: 20px;
+}
+
+.message {
+    font-family: open_sansregular, Arial;
+    font-size: 2em;
+    position: fixed;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    bottom: 100px;
+}
+
+.calendar {
+    font-family: open_sanslight, Arial;
+    font-size: 1em;
+    position: fixed;
+    top: 14em;
+    right: 20px;
+}
+
+.calendar li {
+    list-style: none;
+}
+
+.news {
+    font-family: open_sanslight, Arial;
+    font-size: 1em;
+    position: fixed;
+    bottom: 15em;
+    left: 20px;
+}
+
+.news ul{
+    margin: 0px;
+    padding: 0px;
+}
+
+.news li {
+    list-style: none;
 }
