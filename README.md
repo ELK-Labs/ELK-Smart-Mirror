@@ -107,7 +107,7 @@ Major inspiration came from [http://michaelteeuw.nl/](http://michaelteeuw.nl/) a
 
 [ANDRUXNET](https://market.mashape.com/andruxnet) For their free quotes API
 
-[Font Squirrel](https://www.fontsquirrel.com/) For the amazing fonts the offer, open sans was used in this project, [licence](https://www.fontsquirrel.com/license/open-sans), 
+[Font Squirrel](https://www.fontsquirrel.com/) For the amazing fonts the offer. Open sans was used in this project, [licence](https://www.fontsquirrel.com/license/open-sans) 
 
 [jQuery](https://jquery.com/), [Node JS](https://nodejs.org/en/), [Grunt JS](http://gruntjs.com/), [browserify](http://browserify.org/), [Babel JS](https://babeljs.io) for all being great software
 
