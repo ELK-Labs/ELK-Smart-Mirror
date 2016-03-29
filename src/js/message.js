@@ -82,7 +82,6 @@ export class Message {
             if(this.currentMessages[1] ++ >= this.messages.evening.length - 1) {
                 this.currentMessages[1] = 0;
             }
-            console.log(this.currentMessages[1]);
             this.$(this.messageLoc).updateWithFade(`<span>${ this.messages.evening[this.currentMessages[1]] }</span>`, config.animationDuration);
         } else if(now >= sixPM && now < twelveAM) {
             if(this.currentMessages[2] ++ >= this.messages.night.length - 1) {

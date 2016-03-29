@@ -46,8 +46,8 @@ export const config = {
         ],
         location: 'news',
         updateInterval: 3600000, // how often to pull new news stories
-        showInterval: 60000, // how often to scroll the headlines
-        maxNewsItemsPerFeed: 25, // how many items per each feed will be displayed
+        showInterval: 30000, // how often to scroll the headlines
+        maxNewsItemsPerFeed: 25, // how many items per each feed will be loaded
         maxDisplayItems: 5 // how many items will be displayed at once
     },
 

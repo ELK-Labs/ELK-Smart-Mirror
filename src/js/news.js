@@ -50,7 +50,7 @@ export class News {
                     this._handleData(data.query.results.item);
             },
                 error: () => {
-                    console.log('Error retrieving weather');
+                    console.log('Error Retrieving News');
                 }
             });
         });
