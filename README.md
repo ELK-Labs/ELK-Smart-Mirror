@@ -99,7 +99,6 @@ You can also set custom messages in the messages section. As well as add in any 
 
 Major inspiration came from [http://michaelteeuw.nl/](http://michaelteeuw.nl/) and his 'Magic mirror'. You can find his github repo [here](https://github.com/MichMich/MagicMirror) to see and use his project if you prefer (it's excellent, and this one wouldn't have been possible without him).
 
-
 [erikflowers](https://twitter.com/Erik_UX) and his [weather icons](https://erikflowers.github.io/weather-icons/) and his weather icons.
 
 [Font Awesome](https://fortawesome.github.io/Font-Awesome/) and their awesome icon set
