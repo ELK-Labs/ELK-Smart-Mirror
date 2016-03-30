@@ -7,12 +7,12 @@
 import { config } from './config';
 
 export class Time {
-    constructor(jQuery, moment) {
+    constructor($, moment) {
+        this.$ = $;
         this.moment = moment;
-        this.$ = jQuery;
         this.updateInterval = config.Time.updateInterval || 1000;
-        this.timeLoc = "." + config.Time.timeLoc;
-        this.dateLoc = "." + config.Time.dateLoc;
+        this.timeLoc = '.' + config.Time.timeLoc;
+        this.dateLoc = '.' + config.Time.dateLoc;
         this.locale = config.Locale;
         this.format = config.Time.format;
         this.dateFormat = config.Time.dateFormat;
@@ -26,7 +26,6 @@ export class Time {
     }
 
     update () {
-
         let timeHtml = `<span>${ this.moment().locale(this.locale).format(this.format)} </span>`;
         let dateHtml = `<span>${ this.moment().locale(this.locale).format(this.dateFormat) }</span>`;
 

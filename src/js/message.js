@@ -8,8 +8,8 @@ import { config } from './config';
 
 
 export class Message {
-    constructor(jquery, moment) {
-        this.$ = jquery;
+    constructor($, moment) {
+        this.$ = $;
         this.moment = moment;
         this.useQuote = config.Message.useQuote;
         this.messages = config.Message.messages;
@@ -18,7 +18,7 @@ export class Message {
         this.apiEndpoint = config.Message.quote.apiEndpoint;
         this.apiKey = config.Message.quote.apiKey;
         this.updateInterval = config.Message.updateInterval;
-        this.messageLoc = "." + config.Message.messageLocation;
+        this.messageLoc = '.' + config.Message.messageLocation;
         this.currentMessages = [0,0,0,0];
 
         if(config.Proxy.use) {
@@ -49,7 +49,7 @@ export class Message {
     quote() {
         this.$.ajax({
             url: `${ this.apiEndpoint }`,
-            type: "GET",
+            type: 'GET',
             data: {},
             dataType: 'json',
             success: (data) => {
@@ -57,10 +57,10 @@ export class Message {
                     .updateWithFade(`<span>&quot;${ data.quote }&quot;</span><span> &#8211; ${ data.author }</span>`, config.animationDuration);
             },
             error: () => {
-                console.log("Unable to retrieve quote");
+                console.log('Unable to retrieve quote');
             },
             beforeSend: (xhr) => {
-                xhr.setRequestHeader("X-Mashape-Authorization", this.apiKey);
+                xhr.setRequestHeader('X-Mashape-Authorization', this.apiKey);
             }
         });
     }

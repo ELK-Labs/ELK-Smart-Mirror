@@ -8,17 +8,17 @@ import { config } from './config';
 
 export class News {
 
-    constructor(jquery) {
-        this.$ = jquery;
+    constructor($) {
+        this.$ = $;
         this.feeds  = config.News.feeds || null;
-        this.newsLoc = "." + config.News.location;
+        this.newsLoc = '.' + config.News.location;
         this.newsItems = [];
         this.seenItems = [];
         this.updateInterval = config.News.updateInterval || 300000;
         this.showInterval = config.News.showInterval || 60000;
         this.maxNewsItemsPerFeed = config.News.maxNewsItemsPerFeed || 25;
         this.maxDisplayItems = config.News.maxDisplayItems || 5;
-        this.YQL = "https://query.yahooapis.com/v1/public/yql?format=json&q=select+title+from+rss+where+url%3D";
+        this.YQL = 'https://query.yahooapis.com/v1/public/yql?format=json&q=select+title+from+rss+where+url%3D';
 
         if(config.Proxy.use) {
             this.YQL = config.Proxy.url + this.YQL;
@@ -39,7 +39,6 @@ export class News {
     }
 
     update() {
-
         this.feeds.forEach((feed) => {
             this.$.ajax({
                 type: 'GET',
@@ -62,15 +61,14 @@ export class News {
     }
 
     show() {
-
         let newsHtml = `<ul>`;
+
         for(let i = 0; i < this.maxDisplayItems; i++ ) {
             newsHtml += `<li><i class="fa fa-newspaper-o"></i>&nbsp;<span>${ this.newsItems[i].title }</span></li>`
         }
         newsHtml += '</ul>';
 
         this.$(this.newsLoc).updateWithFade(newsHtml, config.animationDuration);
-
         this.seenItems.push(this.newsItems.shift());
 
         if(this.newsItems.length == this.maxDisplayItems) {

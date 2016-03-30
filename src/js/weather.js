@@ -8,25 +8,24 @@ import { config } from './config';
 
 export class Weather {
 
-    constructor(jquery, moment) {
-
-        this.$ = jquery;
+    constructor($, moment) {
+        this.$ = $;
         this.moment = moment;
         this.apiKey = config.Weather.apiKey;
         this.apiBase = config.Weather.apiBase;
         this.lat = config.Weather.lat;
         this.long = config.Weather.long;
-        this.currentLoc = "." + config.Weather.currentLoc;
-        this.windLoc = "." + config.Weather.windLoc;
-        this.sunLoc = "." + config.Weather.sunLoc;
-        this.feelsLikeLoc = "." + config.Weather.feelsLikeLoc;
-        this.summaryLoc = "." + config.Weather.summaryLoc;
-        this.forecastLoc = "." + config.Weather.forecastLoc;
+        this.currentLoc = '.' + config.Weather.currentLoc;
+        this.windLoc = '.' + config.Weather.windLoc;
+        this.sunLoc = '.' + config.Weather.sunLoc;
+        this.feelsLikeLoc = '.' + config.Weather.feelsLikeLoc;
+        this.summaryLoc = '.' + config.Weather.summaryLoc;
+        this.forecastLoc = '.' + config.Weather.forecastLoc;
         this.updateInterval = config.Weather.updateInterval;
         this.useKnots = config.Weather.useKnots || false;
         this.useMetric = config.Weather.useMetric;
-        this.units = "si";
-        this.windUnit = "";
+        this.units = 'si';
+        this.windUnit = '';
 
         this.iconTable = {
             'clear-day':'wi-day-sunny',
@@ -87,16 +86,18 @@ export class Weather {
             '27':'wi-moon-waning-crescent-6'
         };
 
-        if(this.useKnots){
-            this.windUnit = "kn"
-        } else if(this.useMetric) {
-            this.windUnit = "kph";
-        } else {
-            this.windUnit = "mph"
+        if(this.useKnots) {
+            this.windUnit = 'kn'
+        }
+        else if(this.useMetric) {
+            this.windUnit = 'kph';
+        }
+        else {
+            this.windUnit = 'mph'
         }
 
         if (!this.useMetric) {
-            this.units = "us";
+            this.units = 'us';
         }
 
         if(config.Proxy.use) {
@@ -114,7 +115,6 @@ export class Weather {
     }
 
     update() {
-
         this.$.ajax({
             type: 'GET',
             url: `${ this.apiBase }/${ this.apiKey }/${ this.lat },${ this.long }?units=${ this.units }`,
@@ -127,7 +127,6 @@ export class Weather {
                 console.log('Error retrieving weather');
             }
         });
-
     }
 
     _handleData(data) {
@@ -135,19 +134,23 @@ export class Weather {
         let apparentTemp = Math.ceil(data.currently.apparentTemperature);
         let wind = 0;
         let dayTime = false;
-        if(this.useKnots){
+
+        if(this.useKnots) {
             wind = this._windToKnots(data.currently.windSpeed, this.useMetric);
-        } else {
+        }
+        else {
             if(this.useMetric) {
                 wind = this._roundValue(data.currently.windSpeed * 3.6, 2);
-            } else {
+            }
+            else {
                 wind = this._roundValue(data.currently.windSpeed, 2);
             }
         }
+
         let windDirection = this._windDirection(data.currently.windBearing);
-        let now = this.moment().locale(config.Locale).format("HH:mm");
-        let sunrise = this.moment(data.daily.data[0].sunriseTime*1000).format("HH:mm A");
-        let sunset = this.moment(data.daily.data[0].sunsetTime*1000).format("HH:mm A");
+        let now = this.moment().locale(config.Locale).format('HH:mm');
+        let sunrise = this.moment(data.daily.data[0].sunriseTime*1000).format('HH:mm A');
+        let sunset = this.moment(data.daily.data[0].sunsetTime*1000).format('HH:mm A');
         let moon = Math.round(27*(data.daily.data[0].moonPhase + 0.018));
         let feelsLikeHtml = `<span></span>`;
         let summaryHtml = `<span>${ data.hourly.summary }</span>`;
@@ -158,15 +161,12 @@ export class Weather {
             sunHTML = `<span><i class="wi wi-sunset"></i> at ${ sunset }</span>`;
             dayTime = true;
         }
-
         if(Math.abs(temp - apparentTemp) > 1) {
             feelsLikeHtml = `<span>Feels like ${ apparentTemp }&deg;</span>`;
         }
 
         let icon = this._icon(data.currently.icon, moon, dayTime);
-
         let currentTempHtml = `<span>${ temp }&deg;</span> <i class="wi ${ icon }"></i>`;
-
         let opacity = 1;
         let forecastHtml = '<table class="forecast-table">';
 
@@ -198,52 +198,69 @@ export class Weather {
     }
 
     _icon(icon, moonPhase, isDaytime) {
-
-        if(icon=='clear-day' || icon=='partly-cloudy-day' || icon == 'partly-cloudy-night' || icon == 'thunderstorm' || icon == 'tornado' || icon == 'wind'){
+        if(icon=='clear-day' || icon=='partly-cloudy-day' || icon == 'partly-cloudy-night' || icon == 'thunderstorm' || icon == 'tornado' || icon == 'wind') {
             return this.iconTable[icon];
-        }else if(icon == 'clear-night'){
+        }
+        else if(icon == 'clear-night') {
             return this.moonIconTable[moonPhase];
-        }else{
-            if(isDaytime){
+        }
+        else {
+            if(isDaytime) {
                 return this.iconTable[icon + '-day'];
-            } else{
+            }
+            else {
                 return this.iconTable[icon + '-night'];
             }
         }
     }
 
-    _windDirection(windAngle){
+    _windDirection(windAngle) {
         if (windAngle >= 11.25 && windAngle < 33.75) {
             return 'NNE';
-        } else if (windAngle >= 33.75 && windAngle < 56.25) {
+        }
+        else if (windAngle >= 33.75 && windAngle < 56.25) {
             return 'NE';
-        } else if (windAngle >= 56.25 && windAngle < 78.75) {
+        }
+        else if (windAngle >= 56.25 && windAngle < 78.75) {
             return 'ENE';
-        } else if (windAngle >= 78.75 && windAngle < 101.25) {
+        }
+        else if (windAngle >= 78.75 && windAngle < 101.25) {
             return 'E';
-        } else if (windAngle >= 101.25 && windAngle < 123.75) {
+        }
+        else if (windAngle >= 101.25 && windAngle < 123.75) {
             return 'ESE';
-        } else if (windAngle >= 123.75 && windAngle < 146.25) {
+        }
+        else if (windAngle >= 123.75 && windAngle < 146.25) {
             return 'SE';
-        } else if (windAngle >= 146.25 && windAngle < 168.75) {
+        }
+        else if (windAngle >= 146.25 && windAngle < 168.75) {
             return 'SSE';
-        } else if (windAngle >= 168.75 && windAngle < 191.25) {
+        }
+        else if (windAngle >= 168.75 && windAngle < 191.25) {
             return 'S';
-        } else if (windAngle >= 191.25 && windAngle < 213.75) {
+        }
+        else if (windAngle >= 191.25 && windAngle < 213.75) {
             return 'SSW';
-        } else if (windAngle >= 213.75 && windAngle < 236.25) {
+        }
+        else if (windAngle >= 213.75 && windAngle < 236.25) {
             return 'SW';
-        } else if (windAngle >= 236.25 && windAngle < 258.75) {
+        }
+        else if (windAngle >= 236.25 && windAngle < 258.75) {
             return 'WSW';
-        } else if (windAngle >= 258.75 && windAngle < 281.25) {
+        }
+        else if (windAngle >= 258.75 && windAngle < 281.25) {
             return 'W';
-        } else if (windAngle >= 281.25 && windAngle < 303.75) {
+        }
+        else if (windAngle >= 281.25 && windAngle < 303.75) {
             return 'WNW';
-        } else if (windAngle >= 303.75 && windAngle < 326.25) {
+        }
+        else if (windAngle >= 303.75 && windAngle < 326.25) {
             return 'NW';
-        } else if (windAngle >= 326.25 && windAngle < 348.75) {
+        }
+        else if (windAngle >= 326.25 && windAngle < 348.75) {
             return 'NNW';
-        } else {
+        }
+        else {
             return 'N';
         }
     }
@@ -255,7 +272,8 @@ export class Weather {
     _windToKnots(windSpeed, metric) {
         if(metric) {
             return parseFloat(windSpeed * 1.94384).toFixed(2);
-        } else {
+        }
+        else {
             return parseFloat(windSpeed * 0.868976).toFixed(2);
         }
     }

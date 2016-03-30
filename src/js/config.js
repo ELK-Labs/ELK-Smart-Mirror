@@ -4,7 +4,7 @@
 //! Licence : MIT
 //! elklabs.io
 
-import { keys } from "./keys";
+import { keys } from './keys';
 
 export const config = {
 
@@ -56,51 +56,51 @@ export const config = {
 
     Weather: {
         apiKey: keys.weather,
-        apiBase: "https://api.forecast.io/forecast",
+        apiBase: 'https://api.forecast.io/forecast',
         lat: 53.3478, // find your lat and long on google maps
         long: -6.2597,
         useMetric: true,
         useKnots: false, // use knots for wind speed
-        feelsLikeLoc: "feelslike",
-        summaryLoc: "weathersummary",
-        currentLoc: "temp",
-        windLoc: "wind",
-        sunLoc: "sun",
-        forecastLoc: "forecast",
+        feelsLikeLoc: 'feelslike',
+        summaryLoc: 'weathersummary',
+        currentLoc: 'temp',
+        windLoc: 'wind',
+        sunLoc: 'sun',
+        forecastLoc: 'forecast',
         updateInterval: 3600000 // how ofter the forecast updates
     },
 
     Message: {
-        messageLocation: "message",
+        messageLocation: 'message',
         useQuote: true,
         updateInterval: 1800000, // how often the quotes/messages update
         quote: {
-            apiEndpoint: "https://andruxnet-random-famous-quotes.p.mashape.com/",
+            apiEndpoint: 'https://andruxnet-random-famous-quotes.p.mashape.com/',
             apiKey: keys.quote
         },
         messages: {
             morning: [ // 6AM to 12PM
-                "Good Morning!",
-                "Have a Great Day!",
-                "Looking Well!",
-                "Don't Forget a Coffee!",
-                "Have a Nice Sleep?"
+                'Good Morning!',
+                'Have a Great Day!',
+                'Looking Well!',
+                'Don\'t Forget a Coffee!',
+                'Have a Nice Sleep?'
             ],
             evening: [ // 12PM to 6PM
-                "Enjoy Your Lunch!",
-                "Hope The Day is Going Well!",
-                "Jaysus, What a Stunner!",
-                "Fine Day for it!"
+                'Enjoy Your Lunch!',
+                'Hope The Day is Going Well!',
+                'Jaysus, What a Stunner!',
+                'Fine Day for it!'
             ],
             night: [ // 6PM to 12AM
-                "Have a Great Night!",
-                "Sweet Dreams!",
-                "Early to Bed, Early to Rise"
+                'Have a Great Night!',
+                'Sweet Dreams!',
+                'Early to Bed, Early to Rise'
             ],
             lateNight: [ // 12AM to 6AM
-                "Shouldn't You Be Asleep...",
-                "Sleep, who has time for it?",
-                "Get to Bed!"
+                'Shouldn\'t You Be Asleep...',
+                'Sleep, who has time for it?',
+                'Get to Bed!'
             ]
         },
         birthdays: {

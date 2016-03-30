@@ -8,8 +8,8 @@ import { config } from './config';
 
 export class Calendar {
     constructor($, moment) {
-        this.moment = moment;
         this.$ = $;
+        this.moment = moment;
         this.clientID = '439661368471-bbb78jv01beseftgbvlg24tmjlru4ncv.apps.googleusercontent.com';
         this.scopes = ['https://www.googleapis.com/auth/calendar.readonly'];
         this.updateInterval = config.Calendar.updateInterval;
@@ -31,8 +31,7 @@ export class Calendar {
     checkOAuth() {
         this.gapi = window.gapi;
 
-        this.gapi.auth.authorize(
-        {
+        this.gapi.auth.authorize({
             'client_id': this.clientID,
             'scope': this.scopes.join(' '),
             'immediate': true
@@ -42,13 +41,13 @@ export class Calendar {
     }
 
     handleAuthResult(res) {
-
         if(res && !res.error) {
             this.gapi.client.load('calendar', 'v3', () => {
                 this.listUpcomingEvents();
             });
             this.attempts = 0;
-        } else {
+        }
+        else {
             if(this.attempts < 5) {
                 this.gapi.auth.authorize({
                     client_id: this.clientID,
@@ -57,7 +56,8 @@ export class Calendar {
                 }, (res2) => {
                     this.handleAuthResult(res2);
                 });
-            } else {
+            }
+            else {
                 console.log('couldn\'t authenticate with google api');
                 this.attempts = 0;
             }
@@ -66,7 +66,6 @@ export class Calendar {
     }
 
     listUpcomingEvents() {
-
         let request = this.gapi.client.calendar.events.list({
             'calendarId': 'primary',
             'timeMin': (new Date()).toISOString(),
@@ -79,6 +78,7 @@ export class Calendar {
         request.execute((resp) => {
             let events = resp.items;
             let html = '<ul>';
+            
             if (events.length > 0) {
                 for (let i = 0; i < events.length; i++) {
                     let event = events[i];
@@ -95,7 +95,8 @@ export class Calendar {
 
                     html += `<li><i class="fa fa-calendar"></i>&nbsp;<span>${ time } &#9866; ${ event.summary }</span></li>`;
                 }
-            } else {
+            }
+            else {
                 console.log('Error fetching Google Calendar Data');
             }
 
@@ -104,6 +105,4 @@ export class Calendar {
 
         });
     }
-
 }
-
